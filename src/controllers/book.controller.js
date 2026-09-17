@@ -75,3 +75,26 @@ export const updateBook = async (req, res) => {
         });
     }
 };
+
+// Eliminar un libro por su ID
+export const deleteBook = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deletedBook = await Book.findByIdAndDelete(id);
+
+        if (!deletedBook) {
+            return res.status(404).json({ message: 'Libro no encontrado para eliminar' });
+        }
+
+        return res.status(200).json({
+            message: 'Libro eliminado correctamente',
+            book: deletedBook
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error al eliminar el libro',
+            error: error.message
+        });
+    }
+};

@@ -1,6 +1,7 @@
 import express from 'express';
 import {
     createBook,
+    deleteBook,
     getAllBooks,
     getBookById,
     updateBook
@@ -16,5 +17,6 @@ router.get('/:id', getBookById);
 // Ruta protegida (requiere token válido)
 router.post('/', [isAuth], createBook);
 router.put('/:id', [isAuth], updateBook);
+router.delete('/:id', [isAuth], deleteBook);
 
 export default router;
