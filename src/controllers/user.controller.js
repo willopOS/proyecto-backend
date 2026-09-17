@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { deleteFile } from '../middlewares/file.js';
 import { User } from '../models/User.js';
 import { generateSign } from '../utils/jwt.js';
 
@@ -145,6 +146,18 @@ export const deleteUser = async (req, res) => {
             });
         }
 
+        const userToDelete = await User.findById(id);
+
+        if (!userToDelete) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        
+        // Si el usuario tiene una imagen, la borramos de Cloudinary
+        if (userToDelete.image) {
+            deleteFile(userToDelete.image);
+        }
+
+        // Ahora sí, eliminamos el usuario de la base de datos
         const deletedUser = await User.findByIdAndDelete(id);
 
         if (!deletedUser) {
