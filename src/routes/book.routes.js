@@ -1,5 +1,10 @@
 import express from 'express';
-import { createBook, getAllBooks, getBookById } from '../controllers/book.controller.js';
+import {
+    createBook,
+    getAllBooks,
+    getBookById,
+    updateBook
+} from '../controllers/book.controller.js';
 import { isAuth } from '../middlewares/auth.js';
 
 const router = express.Router();
@@ -10,5 +15,6 @@ router.get('/:id', getBookById);
 
 // Ruta protegida (requiere token válido)
 router.post('/', [isAuth], createBook);
+router.put('/:id', [isAuth], updateBook);
 
 export default router;

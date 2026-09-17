@@ -54,3 +54,24 @@ export const createBook = async (req, res) => {
         });
     }
 };
+
+// Actualizar un libro por su ID
+export const updateBook = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Pasamos el ID, los nuevos datos y { new: true } para que devuelva el libro ya modificado
+        const updatedBook = await Book.findByIdAndUpdate(id, req.body, { new: true });
+
+        if (!updatedBook) {
+            return res.status(404).json({ message: 'Libro no encontrado para actualizar' });
+        }
+
+        return res.status(200).json(updatedBook);
+    } catch (error) {
+    return res.status(500).json({
+        message: 'Error al actualizar el libro',
+        error: error.message
+        });
+    }
+};
