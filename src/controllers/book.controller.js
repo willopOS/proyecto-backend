@@ -31,3 +31,26 @@ export const getBookById = async (req, res) => {
         });
     }
 };
+
+// Crear un nuevo libro en la base de datos
+export const createBook = async (req, res) => {
+    try {
+        const { title, author, genre, year, coverImage } = req.body;
+
+        const newBook = new Book({
+            title,
+            author,
+            genre,
+            year,
+            coverImage
+    });
+
+    const savedBook = await newBook.save();
+    return res.status(201).json(savedBook);
+    } catch (error) {
+    return res.status(500).json({
+        message: 'Error al crear el libro',
+        error: error.message
+        });
+    }
+};

@@ -1,10 +1,14 @@
 import express from 'express';
-import { getAllBooks, getBookById } from '../controllers/book.controller.js';
+import { createBook, getAllBooks, getBookById } from '../controllers/book.controller.js';
+import { isAuth } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-// Ruta para consultar todos los libros
+// Rutas públicas (cualquiera puede leer)
 router.get('/', getAllBooks);
 router.get('/:id', getBookById);
+
+// Ruta protegida (requiere token válido)
+router.post('/', [isAuth], createBook);
 
 export default router;
