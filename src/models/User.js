@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema(
             enum: ['user', 'admin'],
             default: 'user'
         },
+        // Campo para la foto de perfil en Cloudinary 🖼️
+        image: {
+            type: String,
+            default: '' // Puede iniciar vacío si no sube foto
+    },
         books: [
             {
                 type: mongoose.Schema.Types.ObjectId,
