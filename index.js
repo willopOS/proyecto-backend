@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { connectDB } from './src/config/db.js';
 import bookRoutes from './src/routes/book.routes.js';
+import userRoutes from './src/routes/user.routes.js';
 
 // Cargar variables de entorno desde .env
 dotenv.config();
@@ -19,6 +20,7 @@ connectDB();
 
 // Rutas de la API
 app.use('/api/books', bookRoutes);
+app.use('/api/users', userRoutes);
 
 // Ruta de prueba inicial
 app.get('/', (req, res) => {
