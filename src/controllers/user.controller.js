@@ -64,3 +64,28 @@ export const login = async (req, res) => {
         return res.status(500).json({ message: 'Error en el inicio de sesión', error: error.message });
     }
 };
+
+// Añadir un libro al array del usuario
+export const addBookToUser = async (req, res) => {
+    try {
+        // El ID del usuario lo obtenemos del token (nuestro middleware isAuth lo guarda en req.user)
+        const userId = req.user._id;
+        // El ID del libro lo recibiremos por el cuerpo de la petición (JSON)
+        const { bookId } = req.body;
+
+        // Buscamos al usuario y actualizamos su array 'books' usando $addToSet
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $addToSet: { books: bookId } },
+            { new: true } // Devuelve el documento ya actualizado
+        ).select('-password') // Ocultamos la contraseña por seguridad
+        .populate('books'); // populate nos trae la info completa del libro, no solo su ID
+
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error al añadir el libro al usuario',
+            error: error.message
+        });
+    }
+};

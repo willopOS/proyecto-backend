@@ -18,7 +18,13 @@ const userSchema = new mongoose.Schema(
             type: String,
             enum: ['user', 'admin'],
             default: 'user'
-        }
+        },
+        books: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Book'
+            }
+        ]
     },
     {
         timestamps: true,
